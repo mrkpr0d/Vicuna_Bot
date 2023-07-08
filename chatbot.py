@@ -16,7 +16,7 @@ historial_dir = 'logs/'
 
 # Cargar el modelo gglm
 print("Cargando el modelo...")
-llm = Llama(model_path="Wizard-Vicuna-13B-Uncensored.ggmlv3.q4_0.bin", n_ctx=2048, seed=random.randint(0, 1000))
+llm = Llama(model_path="Wizard-Vicuna-13B-Uncensored.ggmlv3.q4_0.bin", n_ctx=2048, n_gpu_layers=10, seed=random.randint(0, 1000))
 
 irc.client.ServerConnection.buffer_class = buffer.LenientDecodingLineBuffer
 
@@ -51,6 +51,7 @@ class VicunaBot(irc.bot.SingleServerIRCBot):
         connection.join("#inteligencia_artificial")
         connection.join("#urss")
         connection.join("#bots")
+        connection.join("#dios")
         
 
     def on_join(self, connection, event):
