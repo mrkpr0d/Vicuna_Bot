@@ -5,6 +5,7 @@ from jaraco.stream import buffer
 from datetime import datetime
 import random
 import time
+import os
 
 # Configuración de IRC
 server = 'irc.irc-hispano.org'
@@ -16,7 +17,17 @@ historial_dir = 'logs/'
 
 # Cargar el modelo gglm
 print("Cargando el modelo...")
-llm = Llama(model_path="Wizard-Vicuna-13B-Uncensored.ggmlv3.q4_0.bin", n_ctx=2048, n_gpu_layers=10, seed=random.randint(0, 1000))
+
+file_path = "WizardLM-7B-uncensored.ggmlv3.q2_K.bin"
+
+if os.path.exists(file_path):
+    print("El archivo existe.")
+else:
+    print("El archivo no existe.")
+    
+llm = Llama(model_path="wizard-mega-13B.ggmlv3.q4_0.bin", n_ctx=2048, n_gpu_layers=18, seed=random.randint(0, 1000))
+
+
 
 irc.client.ServerConnection.buffer_class = buffer.LenientDecodingLineBuffer
 
@@ -49,7 +60,7 @@ class VicunaBot(irc.bot.SingleServerIRCBot):
         #time.sleep(2)
         connection.send_raw(f'NICK Soy_Tu_Dios!Lza87y3FqrYK')
         connection.join("#inteligencia_artificial")
-        connection.join("#urss")
+        #connection.join("#urss")
         connection.join("#bots")
         connection.join("#dios")
         
@@ -68,7 +79,7 @@ class VicunaBot(irc.bot.SingleServerIRCBot):
         if channel not in self.message_history:
             self.load_historial(channel)
 
-        if len(self.message_history[channel]) > 5   :
+        if len(self.message_history[channel]) > 0   :
             self.message_history[channel].pop(0)
 
         self.message_history[channel].append(f"### {sender_nick} dijo: {message.lower().replace(self._nickname.lower(),'')}")
@@ -87,9 +98,9 @@ class VicunaBot(irc.bot.SingleServerIRCBot):
 ### Dios respondió:
 """
 
-        if self.connection.nickname.lower() in message.lower() or 'dios' in message.lower() and sender_nick != self.connection.nickname.lower():
+        if self.connection.nickname.lower() in message.lower() or 'dios' in message.lower() and (sender_nick != self.connection.nickname.lower() or sender_nick != "soy_tu_dios") :
             print(rol)
-            output = llm(rol, max_tokens=260, stop=['###'], echo=False, temperature=0.2, frequency_penalty=2)
+            output = llm(rol, max_tokens=300, stop=['###',"```"], echo=False, temperature=0.2, frequency_penalty=2)
             print("<!--")
             print(output)
             print("!-->")
