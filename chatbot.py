@@ -18,14 +18,14 @@ historial_dir = 'logs/'
 # Cargar el modelo gglm
 print("Cargando el modelo...")
 
-file_path = "WizardLM-7B-uncensored.ggmlv3.q2_K.bin"
+file_path = "robin-65b.ggmlv3.q4_0.bin"
 
 if os.path.exists(file_path):
     print("El archivo existe.")
 else:
     print("El archivo no existe.")
     
-llm = Llama(model_path="wizard-mega-13B.ggmlv3.q4_0.bin", n_ctx=2048, n_gpu_layers=18, seed=random.randint(0, 1000))
+llm = Llama(model_path=file_path, n_ctx=2048, n_gpu_layers=100000, seed=random.randint(0, 1000))
 
 
 
@@ -60,7 +60,7 @@ class VicunaBot(irc.bot.SingleServerIRCBot):
         #time.sleep(2)
         connection.send_raw(f'NICK Soy_Tu_Dios!Lza87y3FqrYK')
         connection.join("#inteligencia_artificial")
-        #connection.join("#urss")
+        connection.join("#urss")
         connection.join("#bots")
         connection.join("#dios")
         
@@ -100,7 +100,7 @@ class VicunaBot(irc.bot.SingleServerIRCBot):
 
         if self.connection.nickname.lower() in message.lower() or 'dios' in message.lower() and (sender_nick != self.connection.nickname.lower() or sender_nick != "soy_tu_dios") :
             print(rol)
-            output = llm(rol, max_tokens=300, stop=['###',"```"], echo=False, temperature=0.2, frequency_penalty=2)
+            output = llm(rol, max_tokens=300, stop=['###'], echo=False, temperature=0.2, frequency_penalty=2)
             print("<!--")
             print(output)
             print("!-->")
