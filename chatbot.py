@@ -34,7 +34,7 @@ if os.path.exists(file_path):
 else:
     print("El archivo no existe.")
     
-llm = Llama(model_path=file_path, n_ctx=2048, n_gpu_layers=12, seed=random.randint(0, 1000))
+llm = Llama(model_path=file_path, n_ctx=2048, n_gpu_layers=100, seed=random.randint(0, 1000))
 
 
 
