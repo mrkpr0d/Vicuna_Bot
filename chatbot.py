@@ -109,7 +109,7 @@ class VicunaBot(irc.bot.SingleServerIRCBot):
         time.sleep(1)
         connection.join("#inteligencia_artificial")
         time.sleep(1)
-        #connection.join("#urss")
+        connection.join("#urss")
         time.sleep(1)
         connection.join("#test")
         time.sleep(1)
@@ -130,6 +130,7 @@ class VicunaBot(irc.bot.SingleServerIRCBot):
                 print(f"Archivo eliminado: {file_to_delete}")
                 connection.privmsg(event.target, f"De acuerdo {sender_nick}, he borrado mis recuerdos.")
                 self.message_history[channel] = []
+                return
             except FileNotFoundError:
                 print(f"No se encontró el historial: {file_to_delete}")
                 connection.privmsg(event.target, f"Error al borrar historial > {file_to_delete}")
